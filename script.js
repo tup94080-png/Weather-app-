@@ -1,4 +1,4 @@
-import {apiKey} from './key.js'
+import {apiKey} from './key.js';
 async function getWeatherData(cityName) {const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}`;
   
     try {
