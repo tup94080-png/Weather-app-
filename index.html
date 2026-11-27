@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>weather app</title>
+</head>
+<body>
+  <style>
+  body{
+    background-image: url('background.jpg');
+  }
+  .heading{
+    color:black;
+    background-color:grey;
+    border:solid;
+  }
+  .typed_city{
+    margin-bottom:33px;
+  }
+  .request{
+    background-color:blue;
+    color:white;
+    border:solid;
+  }
+  .visualData{
+    background-color:white;
+    padding:90px;
+    border-radius:33px;
+  }
+  .art{
+   width: 100%;      
+  height: 100%;       
+  object-fit: cover;
+  }
+  .data{
+    color:white;
+    font-size:33px;
+  }
+  </style>
+  <h1 class="heading">
+    Ask me the weather data of any city on earth!
+  </h1>
+  <input placeholder="Type a city" id="typed_city" class="typed_city">
+  <button class="request" id="request">Request</button>
+  <div class="img_containet">
+    <div class="visualData">
+      <img id="visualData" class="art">
+    </div>
+    <div class="textData">
+      <p id="city" class="data">city:</p>
+      <p id="temparature" class="data">temperature:</p>
+      <p id="condition" class="data">condition:</p>
+      <p id="time" class="data">Time</p>
+    </div>
+  </div>
+  <script>
+  </script>
+</body>
+</html>
