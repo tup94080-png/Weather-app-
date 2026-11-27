@@ -1,4 +1,3 @@
-const apiKey = '0f52e60585464031967110210260908';
 async function getWeatherData(cityName) {const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}`;
   
     try {
