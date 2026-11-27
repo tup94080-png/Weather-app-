@@ -1,60 +1,186 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <title>weather app</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Check current weather conditions for cities around the world.">
+  <title>Weather Now</title>
   <style>
-  body{
-    background-image: url('background.jpg');
-  }
-  .heading{
-    color:black;
-    background-color:grey;
-    border:solid;
-  }
-  .typed_city{
-    margin-bottom:33px;
-  }
-  .request{
-    background-color:blue;
-    color:white;
-    border:solid;
-  }
-  .visualData{
-    background-color:white;
-    padding:90px;
-    border-radius:33px;
-  }
-  .art{
-   width: 100%;      
-  height: 100%;       
-  object-fit: cover;
-  }
-  .data{
-    color:white;
-    font-size:33px;
-  }
-</style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      --text: #f7f9ff;
+      --muted: #bac6d8;
+      --accent: #8be9fd;
+      --panel: rgba(15, 25, 42, 0.72);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      padding: clamp(1.25rem, 5vw, 4rem);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(7, 15, 29, .72), rgba(15, 37, 61, .48)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=85") center / cover fixed,
+        #101827;
+    }
+
+    .app {
+      width: min(100%, 850px);
+    }
+
+    .eyebrow {
+      margin: 0 0 .65rem;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 750;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin: 0 0 1.75rem;
+      font-size: clamp(2.1rem, 6vw, 4.25rem);
+      line-height: 1.04;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+
+    .weather-card {
+      padding: clamp(1.25rem, 4vw, 2.5rem);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .search {
+      display: flex;
+      gap: .75rem;
+      margin-bottom: 2rem;
+    }
+
+    .typed_city {
+      flex: 1;
+      min-width: 0;
+      padding: .95rem 1rem;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 14px;
+      outline: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, .09);
+      font: inherit;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+
+    .typed_city::placeholder { color: #c1ccda; }
+    .typed_city:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, .13);
+      box-shadow: 0 0 0 4px rgba(139, 233, 253, .15);
+    }
+
+    .request {
+      padding: .9rem 1.25rem;
+      border: 0;
+      border-radius: 14px;
+      color: #092133;
+      background: var(--accent);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+
+    .request:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .request:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+
+    .weather-info {
+      display: grid;
+      grid-template-columns: minmax(110px, 180px) 1fr;
+      align-items: center;
+      gap: clamp(1rem, 4vw, 2.5rem);
+      min-height: 170px;
+    }
+
+    .visualData {
+      width: 100%;
+      min-height: 130px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .art { width: 100px; height: 100px; object-fit: contain; }
+
+    .textData { min-width: 0; }
+    .data {
+      margin: .55rem 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    #city { color: var(--text); font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 700; }
+
+    @media (max-width: 520px) {
+      .search { flex-direction: column; }
+      .request { min-height: 48px; }
+      .weather-info { grid-template-columns: 1fr; }
+      .visualData { min-height: 110px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-  <h1 class="heading">
-    Ask me the weather data of any city on earth!
-  </h1>
-  <input placeholder="Type a city" id="typed_city" class="typed_city">
-  <button class="request" id="request">Request</button>
-  <div class="img_containet">
-    <div class="visualData">
-      <img id="visualData" class="art">
-    </div>
-    <div class="textData">
-      <p id="city" class="data">city:</p>
-      <p id="temparature" class="data">temperature:</p>
-      <p id="condition" class="data">condition:</p>
-      <p id="time" class="data">Time</p>
-    </div>
-  </div>
-  <script src = "script.js" type = "module">
-  </script>
+  <main class="app">
+    <p class="eyebrow">Weather, wherever you are</p>
+    <h1>Find the forecast for any city.</h1>
+
+    <section class="weather-card" aria-label="Current weather lookup">
+      <div class="search">
+        <input
+          type="search"
+          placeholder="Enter a city name"
+          id="typed_city"
+          class="typed_city"
+          aria-label="City name"
+          autocomplete="off"
+        >
+        <button class="request" id="request" type="button">Get weather</button>
+      </div>
+
+      <div class="weather-info" aria-live="polite">
+        <div class="visualData">
+          <img id="visualData" class="art" alt="Current weather condition icon">
+        </div>
+        <div class="textData">
+          <p id="city" class="data">City: —</p>
+          <p id="temparature" class="data">Temperature: —</p>
+          <p id="condition" class="data">Condition: —</p>
+          <p id="time" class="data">Local time: —</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js" type="module"></script>
 </body>
 </html>
