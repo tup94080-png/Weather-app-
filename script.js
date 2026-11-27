@@ -8,7 +8,7 @@ async function getWeatherData(cityName) {const url = `https://api.weatherapi.com
         };
       const data = await response.json();
       document.getElementById('city').textContent = `City: ${data.location.name},${data.location.country}`;
-      document.getElementById('temparature').textContent = `Temperature: ${data.current.temp_c}°C`;
+      document.getElementById('temperature').textContent = `Temperature: ${data.current.temp_c}°C`;
       document.getElementById('condition').textContent = `Condition: ${data.current.condition.text}`;
      document.getElementById('time').textContent =`Time:${data.location.localtime}`;
       const iconUrl = 'https:' + data.current.condition.icon;
